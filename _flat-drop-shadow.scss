@@ -1,0 +1,55 @@
+// 3D Flat Buttons
+
+/*
+  Optional arguments:
+    1. $color - Color of Drop Shadow
+    2. $size - Size of Drop Shadow
+    3. $direction (n, w, s, e, nw, sw, ne, se) - Cardinal and Intercardinal Directions   
+    4. $type - box (box-shadow) or text (text-shadow) 
+*/
+
+@mixin flat-drop-shadow($color: #ccc, $size: 4, $direction: se, $type: box) {
+  $out:  #{" "};
+  
+    @for $i from 1 through $size {
+      // Cardinal Directions
+      @if $direction == "n"{
+        $out: $out 0 -#{$i}px 1px #{$color};
+      }
+      @else if $direction == "w" {
+        $out: $out -#{$i}px 0 1px #{$color};
+      }
+      @else if $direction == "s"{
+        $out: $out 0 #{$i}px 1px #{$color};
+      }
+      @else if $direction == "e"{
+        $out: $out #{$i}px 0 1px #{$color};
+      }
+
+      // Intercardinal Directions
+      @else if $direction == "sw"{
+        $out: $out -#{$i}px #{$i}px 1px #{$color};
+      }
+      @else if $direction == "nw" {
+        $out: $out -#{$i}px -#{$i}px 1px #{$color};
+      }
+      @else if $direction == "ne"{
+        $out: $out #{$i}px -#{$i}px 1px #{$color};
+      }
+      @else { // Default to $direction == "se"{
+        $out: $out #{$i}px #{$i}px 1px #{$color};
+      }
+
+      @if $i < $size {
+        $out: $out#{","};
+      }
+    }
+    
+    @if $type == box {
+      @include box-shadow($out);
+    }
+    @else if $type == text {
+      @include text-shadow($out);
+    }
+  
+}
